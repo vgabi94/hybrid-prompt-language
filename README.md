@@ -129,14 +129,14 @@ fn parse_server_logs(filepath: str):
 
 @{Ensure the JSON output is beautifully indented}
 def export_to_json(data, output_path: str):
-    {Write the data dictionary to output_path as a JSON file}
+    {Write $data to $output_path as a JSON file}
 
 # Main execution flow using verbatim target-language code mixed with prompts
 if __name__ == "__main__":
     logs = parse_server_logs(log_path)
-    if {logs list is not empty}:
+    if {$logs is not empty}:
         export_to_json(logs, "errors.json")
-        print("Export complete.")
+        print("Export complete")
     else:
-        print("No errors found.")
+        print("No errors found")
 ```
