@@ -64,11 +64,40 @@ else:
 for item in list:
     action
 
+for i = 1 to N:
+    action
+
 while {there are still unread messages}:
+    action
+
+repeat until {condition is met}:
     action
 ```
 
-### 5. Special Operators
+### 5. Constants
+Use `const` to declare immutable variables.
+* **Syntax:** `const name = value`
+* **Example:** `const API_URL = "https://api.example.com"`
+
+### 6. Object-Oriented Programming
+HyPL supports basic OOP structures that translate to the target language's class system.
+
+*   **Classes:** `class Name:`
+*   **Inheritance:** `class Name(Parent1, Parent2):`
+*   **Constructor:** `cons(args):`
+*   **Destructor:** `dtor:`
+
+**Example:**
+```hypl
+class Dog(Animal):
+    cons(name):
+        self.name = name
+    
+    fn bark():
+        print("Woof!")
+```
+
+### 7. Special Operators
 
 HyPL relies on two primary prompt operators delimited by braces `{}`:
 
@@ -76,9 +105,18 @@ HyPL relies on two primary prompt operators delimited by braces `{}`:
   Contains natural language instructions for the LLM to convert into the target source code. 
   *Example:* `{Connect to the PostgreSQL database using environment variables}`
 
-* **The Context Declarator `@{...}`**
+*   **The Context Declarator `@{...}`**
   Acts like a decorator. It applies broader instructions, rules, or constraints to the function or block immediately following it.
   *Example:* `@{Optimize for memory usage and avoid third-party libraries}`
+
+*   **The Generic Decorator `@generic`**
+  Hints to the LLM that the following class or function should be implemented using the target language's generics or templates.
+  *Example:*
+  ```hypl
+  @generic
+  class Box(T):
+      val: T
+  ```
 
 * **The Variable Capture Operator `$`**
 Used inside a `{prompt}` to declare or reference variables that exist in the HyPL scope.
@@ -86,7 +124,7 @@ Used inside a `{prompt}` to declare or reference variables that exist in the HyP
     * **Reference:** Including `$name` inside a prompt tells the LLM to use an existing HyPL variable within that specific instruction.
 *   *Example:* `{get $input from standard input}` allows you to use the variable later: `for line in input:`.
 
-### 6. Flexible Syntax Rules
+### 8. Flexible Syntax Rules
 HyPL is designed for AI comprehension, not strict machine compilation. 
 1. **Rule Breaking:** The specification rules are not exhaustive. Users can break them. The LLM will use its best judgment to interpret the intent.
 2. **Implicit Imports:** The LLM will automatically include necessary imports and dependencies based on the prompts and context.
@@ -94,7 +132,7 @@ HyPL is designed for AI comprehension, not strict machine compilation.
 4. **Verbatim Code:** You can write actual code in the target language at any time. The LLM will copy it verbatim without misinterpreting it.
 5. **Clarification:** If the user's intent is genuinely ambiguous, the LLM will pause and ask for clarification.
 
-### 7. Comments
+### 9. Comments
 Comments are used to provide internal documentation for the developer and are ignored by the LLM during the code generation process.
 
 * **Single-line:** Use `#` for comments (Python-style).
@@ -128,7 +166,7 @@ fn parse_server_logs(filepath: str):
     return error_logs
 
 @{Ensure the JSON output is beautifully indented}
-def export_to_json(data, output_path: str):
+fn export_to_json(data, output_path: str):
     {Write $data to $output_path as a JSON file}
 
 # Main execution flow using verbatim target-language code mixed with prompts
